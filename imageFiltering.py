@@ -4,14 +4,15 @@ import numpy as np
 import PIL
 from PIL import Image, ImageDraw, ImageFilter, ImageOps
 
-#baseline functionality is present, however there are some quirks that
-#should be addressed
+#issue 1, image was not detected unless absolute filepaths were used.
+#Unsure how it will react to being in a git repository / put on another machine.
+#However, this may be a non-issue once interfaced with Austin's code.
 
-#issue 1, image was not detected unless absolute filepaths were used
-#unsure how it will react to being in a git repository / put on another machine
-
-#issue 2, ellipses did not generate concentric rings, but instead just
-#created a diagonal line across the mask
+#issue 2, SOLVED
+#Ellipses did not generate concentric rings, but instead just
+#created a diagonal line across the mask.
+#Instead of generating ellipses at i and i + 1, it was changed to
+#generate at i and numSlices - i.
 
 def main():
     #Image Initialization
@@ -32,23 +33,28 @@ def main():
     #Mask Creation
     print("Generating Masks")
     i = 0
-    numSlices = 8
+    numSlices = 16
     mask = Image.fromarray(blankSet, "RGBA")
     maskDrawer = ImageDraw.Draw(mask)
+    color = ""
     for i in range(numSlices):
+        if i % 2 == True:
+            color = (0, 0, 0, 0) #Transparent
+        else:
+            color = (0, 0, 0, 255) #Black
         maskDrawer.ellipse(
-            #TODO: Fix ellipse generation code, see issue 2
-            (i * width / numSlices, i * height / numSlices) #Inner Bound
-            + ((i+1) * width / numSlices, (i+1) * height / numSlices), #Outer Bound
-            fill = "black", outline = "black"
-        )
+            (i * width / numSlices, i * height / numSlices) #Top Left Corner of Ellipse
+            + ( (numSlices - i) * width / numSlices, (numSlices - i) * height / numSlices ), #Bottom Right Corner of Ellipse
+            fill = color, outline = color
+            )
     mask.show()
+    mask.save("mask.png")
 
     #Composition
     print("Compositing Images")
     im3 = Image.composite(im1, im2, mask)
     im3.show()
-    im3.save("diagonalMasks.png")
+    im3.save("output.png")
 
 
 if __name__ == "__main__":
