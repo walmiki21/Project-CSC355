@@ -1,3 +1,9 @@
+#Group 4: Colton Swartwoudt, Austin Kim, Alex Heisdorffer, Walmiki Kanuru
+#October 28 2020
+#CSC 355
+#Final Assignment
+
+#import functions
 import numpy as np
 import PIL
 from PIL import Image, ImageDraw, ImageFilter, ImageOps
@@ -7,9 +13,10 @@ from tkinter import colorchooser
 
 root = Tk()
 root.title( 'Image' )
-root.geometry("500x1000")
+root.geometry("500x1000") #Original dimensions of original image
 root.iconbitmap('C:/Users/atk41/OneDrive/Documents/windowsreport-logo.png')
 
+#imported photos
 my_img = ImageTk.PhotoImage(Image.open('C:/Users/atk41/OneDrive/Documents/windowsreport-logo.png'))
 my_label = Label(image=my_img)
 my_label.pack()
@@ -21,12 +28,13 @@ def resize():
     #f string to substitute the w and h above
     root.geometry(f"{w}x{h}")
 
-#pass for user generated height and width
+#pass for user generated width
 width_label = Label(root, text="Width:")
 width_label.pack(pady=15)
 width_entry = Entry(root)
 width_entry.pack()
 
+#pass for user generated height
 height_label = Label(root, text="Height:")
 height_label.pack(pady=15)
 height_entry = Entry(root)
@@ -39,6 +47,7 @@ def color():
     my_label = Label(root, text=my_color).pack(pady=10)
     my_label2 = Label(root,image=my_img, bg=my_color).pack()
 
+ #Button options for resizing and colors   
 my_button = Button(root, text="Resize", command=resize)
 my_button.pack(pady=20)
 my_button = Button(root, text="Color", command=color).pack()
@@ -75,6 +84,8 @@ def main():
     numSlices = 16
     mask = Image.fromarray(blankSet, "RGBA")
     maskDrawer = ImageDraw.Draw(mask)
+    
+   #The color and pattern of the photo
     color = ""
     for i in range(numSlices):
         if i % 2 == True:
