@@ -1,4 +1,8 @@
-#Colton Swartwoudt
+#Group 4: Colton Swartwoudt, Austin Kim, Alex Heisdorffer, Walmiki Kanuru
+#October 27 2020
+#CSC 355
+#Final Assignment
+
 
 import numpy as np
 import PIL
@@ -36,6 +40,7 @@ def main():
     numSlices = 16
     mask = Image.fromarray(blankSet, "RGBA")
     maskDrawer = ImageDraw.Draw(mask)
+      #The color and pattern of the photo
     color = ""
     for i in range(numSlices):
         if i % 2 == True:
